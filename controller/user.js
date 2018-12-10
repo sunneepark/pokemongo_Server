@@ -33,6 +33,36 @@ exports.getItems = function (userId, next) {
                 if (err) return next(err);
                 return next(null, results.length ? results : []);
             }
-        )
-    })
-}
+        );
+    });
+};
+
+/* 유저가 가진 포켓몬들 */
+exports.getPokemons = function (userId, next) {
+    db.connection(function (err, connection) {
+        if (err) return next(err);
+        connection.query(
+            'SELECT `pokemon_name` AS `name`,\
+            `combat_point` AS `cp`,\
+            `health_point` AS `hp`,\
+            `weight`, `height`,\
+            `pokemon_level` AS `level`,\
+            `created_at` AS `catched_at`,\
+            (SELECT attack_name FROM `POKEMON_BOX`, `POKEMON_ATTACK_SPEC`\
+            WHERE `POKEMON_ATTACK_SPEC`.`attack_id` = `POKEMON_BOX`.`normal_attack_id`)\
+            AS normal_attack_name,\
+            (SELECT attack_name AS special_attack_name FROM `POKEMON_BOX`, `POKEMON_ATTACK_SPEC`\
+            WHERE `POKEMON_ATTACK_SPEC`.`attack_id` = `POKEMON_BOX`.`speical_attack_id`)\
+            AS special_attack_name\
+            FROM `POKEMON_BOX`, `POKEMON`\
+            WHERE `POKEMON_BOX`.`user_id` = ?\
+            AND `POKEMON_BOX`.`deletion_method` IS NULL\
+            AND `POKEMON_BOX`.`pokemon_id` = `POKEMON`.`pokemon_id`;',
+            [userId],
+            function (err, results) {
+                if (err) return next(err);
+                return next(null, results.length ? results : []);
+            }
+        );
+    });
+};

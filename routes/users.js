@@ -26,4 +26,13 @@ router.get('/:user_id/bag', function (req, res, next) {
   });
 });
 
+/* GET /users/:user_id/pokemons */
+router.get('/:user_id/pokemons', function(req, res, next) {
+  var userId = req.params['user_id'];
+  user.getPokemons(userId, function (err, pokemons) {
+    if (err) return res.status(500).send(err);
+    return res.send(pokemons);
+  });
+});
+
 module.exports = router;
