@@ -60,7 +60,8 @@ exports.getPokemons = function (userId, next) {
     db.connection(function (err, connection) {
         if (err) return next(err);
         connection.query(
-            'SELECT `pokemon_name` AS `name`,\
+            'SELECT `pokemon_seq` AS `seq`,\
+            `pokemon_name` AS `name`,\
             `combat_point` AS `cp`,\
             `health_point` AS `hp`,\
             `weight`, `height`,\
