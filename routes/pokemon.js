@@ -12,7 +12,10 @@ router.get('/', function (req, res, next) {
 
 /* 포켓몬 포획 */
 router.get('/catch', function (req, res, next) {
-    pokemon.catch(function (err, pokemons) {
+    var userId = req.query['user_id'];
+    var pokemonId = req.query['pokemon_id'];
+    var ballType = req.query['ball_type'] ? req.query['ball_type'] : 1;
+    pokemon.catch(userId, pokemonId, ballType, function (err, pokemons) {
         if (err) return res.status(500).send(err);
         return res.send({ 'code' : 200, 'message' : '성공적으로 포켓몬을 잡았습니다.' });
     });

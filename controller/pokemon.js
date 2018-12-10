@@ -21,10 +21,11 @@ exports.catch = function (userId, pokemonId, ballType, next) {
     db.connection(function (err, connection) {
         if (err) return next(err);
         connection.query(
-            'CATCH_POKEMON(?, ?, ?)',
+            'CALL CATCH_POKEMON(?, ?, ?)',
             [userId, pokemonId, ballType],
             function (err, results) {
                 if (err) return next(err);
+                return next(null, results);
             }
         );
     });
@@ -37,7 +38,7 @@ exports.nearbyPokemons = function (next) {
             'SELECT `pokemon_id`, `pokemon_name` FROM `POKEMON`',
             function (err, results) {
                 if (err) return next(err);
-                return next([results[getRandomInt(0, results.length)], results[getRandomInt(0, results.length)]]);
+                return next(null, [results[getRandomInt(0, results.length)], results[getRandomInt(0, results.length)]]);
             }
         );
     })
