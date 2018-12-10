@@ -29,4 +29,15 @@ router.get('/nearby', function (req, res, next) {
     });
 });
 
+/* 포켓몬 진화 */
+router.get('/evolve', function (req, res, next) {
+    var userId = req.query['user_id'];
+    var pokemonSeq = req.query['pokemon_seq'];
+    pokemon.evolve(userId, pokemonSeq, function (err, resultCode) {
+        if (err) return res.status(500).send(err);
+        if (resultCode == 1) return res.status(400).send({ code : 400, message : '최종 진화 상태 포켓몬입니다.' });
+        return res.send({ code : 200, message : '성공적으로 진화를 했습니다.' });
+    });
+});
+
 module.exports = router;

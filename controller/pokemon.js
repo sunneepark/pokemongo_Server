@@ -41,5 +41,19 @@ exports.nearbyPokemons = function (next) {
                 return next(null, [results[getRandomInt(0, results.length)], results[getRandomInt(0, results.length)]]);
             }
         );
-    })
+    });
+};
+
+exports.evolve = function (userId, pokemonSeq, next) {
+    db.connection(function (err, connection) {
+        if (err) return next(err);
+        connection.query(
+            'SELECT EVOLVE_POKEMON(?, ?) AS `code`',
+            [userId, pokemonSeq],
+            function (err, results) {
+                if (err) return next(err);
+                return next(null, results[0]['code']);
+            }
+        );
+    });
 };
