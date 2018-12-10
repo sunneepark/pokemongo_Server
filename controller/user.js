@@ -13,7 +13,25 @@ exports.findOne = function (username, password, next) {
             [username, password],
             function (err, results) {
                 if (err) return next(err);
-                return next(null, results.length ? results[0] : null);
+                var user = results.length ? results[0] : null;
+                if (user && user['partner_pokemon_seq']) {
+                    connection.query(
+                        'SELECT `pokemon_name` AS `partner_pokemon_name`\
+                        FROM `USER`, `POKEMON`, `POKEMON_BOX`\
+                        WHERE `USER`.`user_id` = ?\
+                        AND `USER`.`partner_pokemon_seq` = `POKEMON_BOX`.`pokemon_seq`\
+                        AND `POKEMON_BOX`.`pokemon_id` = `POKEMON`.`pokemon_id`',
+                        [user['user_id']],
+                        function (err, partnerPokemons) {
+                            if (err) return next(err);
+                            delete user['partner_pokemon_seq'];
+                            user['partner_pokemon'] = partnerPokemons.length ? partnerPokemons[0]['partner_pokemon_name'] : null;
+                            return next(null, user);
+                        }
+                    );
+                } else {
+                    return next(null, user);
+                }
             });
     });
 };
@@ -57,7 +75,7 @@ exports.getPokemons = function (userId, next) {
             FROM `POKEMON_BOX`, `POKEMON`\
             WHERE `POKEMON_BOX`.`user_id` = ?\
             AND `POKEMON_BOX`.`deletion_method` IS NULL\
-            AND `POKEMON_BOX`.`pokemon_id` = `POKEMON`.`pokemon_id`;',
+            AND `POKEMON_BOX`.`pokemon_id` = `POKEMON`.`pokemon_id`',
             [userId],
             function (err, results) {
                 if (err) return next(err);
