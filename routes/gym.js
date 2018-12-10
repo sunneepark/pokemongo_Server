@@ -22,3 +22,12 @@ router.get('/:gym_id', function(req, res, next) {
   });
 
   module.exports = router;  
+
+router.get('/nearby', function (req, res, next) {
+    gym.nearbyGyms(function (err, gyms) {
+        if (err) return res.status(500).send(err);
+        return res.send(gyms);
+    });
+});
+
+module.exports = router;

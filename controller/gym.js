@@ -1,5 +1,10 @@
 var db = require('./db');
 
+/* min ~ max 사이의 임의의 정수 반환 */
+var getRandomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+};
+
 exports.gymname = function (gym_id, next) {
     db.connection(function (err, connection) {
         if (err) return next(err);
@@ -14,6 +19,7 @@ exports.gymname = function (gym_id, next) {
             });
     });
 };
+
 exports.gymPokemons = function (gym_id, next) {
     db.connection(function (err, connection) {
         if (err) return next(err);
@@ -26,6 +32,22 @@ exports.gymPokemons = function (gym_id, next) {
             function (err, results) {
                 if (err) return next(err);
                 return next(null, results);
-            });
+            }
+        );
     });
+};
+
+exports.nearbyGyms = function (next) {
+    db.connection(function (err, connection) {
+        if (err) return next(err);
+        connection.query(
+            'SELECT `gym_id`, `title`\
+            FROM `GYM`, `POKESTOP`\
+            WHERE `POKESTOP`.`pokestop_type` = 2\
+            AND `POKESTOP`.`pokestop_id` = `GYM`.`gym_id`',
+            function (err, results) {
+                if (err) return next(err);
+                return next(null, results);
+            });
+    });  
 };
