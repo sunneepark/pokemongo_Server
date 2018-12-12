@@ -3,6 +3,13 @@ var router = express.Router();
 
 var gym = require('../controller/gym');
 
+router.get('/nearby', function (req, res, next) {
+    gym.nearbyGyms(function (err, gyms) {
+        if (err) return res.status(500).send(err);
+        return res.send({gyms:gyms});
+    });
+});
+
 /* GET /gym/:gym_id/*/
 router.get('/:gym_id', function(req, res, next) {
     var gymid = req.params['gym_id'];
@@ -29,11 +36,6 @@ router.get('/:gym_id', function(req, res, next) {
     });
   });
 
-router.get('/nearby', function (req, res, next) {
-    gym.nearbyGyms(function (err, gyms) {
-        if (err) return res.status(500).send(err);
-        return res.send(gyms);
-    });
-});
+
 
 module.exports = router;

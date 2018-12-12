@@ -25,7 +25,7 @@ router.get('/catch', function (req, res, next) {
 router.get('/nearby', function (req, res, next) {
     pokemon.nearbyPokemons(function (err, pokemons) {
         if (err) return res.status(500).send(err);
-        return res.send(pokemons);
+        return res.send({pokemons:pokemons});
     });
 });
 

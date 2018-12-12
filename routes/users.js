@@ -22,7 +22,7 @@ router.get('/:user_id/bag', function (req, res, next) {
   var userId = req.params['user_id'];
   user.getItems(userId, function (err, items) {
     if (err) return res.status(500).send(err);
-    return res.send(items);
+    return res.send({items:items});
   });
 });
 
@@ -31,7 +31,7 @@ router.get('/:user_id/pokemons', function(req, res, next) {
   var userId = req.params['user_id'];
   user.getPokemons(userId, function (err, pokemons) {
     if (err) return res.status(500).send(err);
-    return res.send(pokemons);
+    return res.send({pokemons:pokemons});
   });
 });
 
