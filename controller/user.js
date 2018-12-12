@@ -14,6 +14,16 @@ exports.findOne = function (username, password, next) {
             function (err, results) {
                 if (err) return next(err);
                 var user = results.length ? results[0] : null;
+                connection.query( //현재 레벨 최대 경험치
+                    'SELECT `exp_to_level_up` AS `exp_to_levelup`\
+                    FROM `USER`, `LEVEL`\
+                    WHERE `LEVEL`.`trainer_level` = ?',
+                    [user['trainer_level']],
+                    function (err, levelupExp) {
+                        if (err) return next(err);
+                        user['exp_to_levelup'] = levelupExp.length ? levelupExp[0]['exp_to_levelup'] : null;
+                    }
+                );
                 if (user && user['partner_pokemon_seq']) {
                     connection.query(
                         'SELECT `pokemon_name` AS `partner_pokemon_name`\

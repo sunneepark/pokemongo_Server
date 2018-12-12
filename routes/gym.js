@@ -12,14 +12,17 @@ router.get('/:gym_id', function(req, res, next) {
             if (err) return res.status(500).send(err);
             if (!name || !name[0]) return res.send({
                 'name': '없는 체육관입니다.',
-                'messages' : "상주 포켓몬이 없습니다"
+                'messages' : "상주 포켓몬이 없습니다",
+                'results':null
             });
             if (results.length == 0) return res.send({
                 'name':name[0].title,
-                'messages' : "상주 포켓몬이 없습니다"
+                'messages' : "상주 포켓몬이 없습니다",
+                'results':null
             });
             return res.send({
                 'name':name[0].title,
+                'messages' : "상주 포켓몬이 있습니다",
                 results
             });
         });
