@@ -13,7 +13,11 @@ router.get('/', function(req, res, next) {
       'code' : 400,
       'message' : '사용자가 없습니다. ID / PW를 확인해주세요.'
     });
-    return res.send(user);
+    return res.send({
+      'code':200,
+      'message':'로그인 성공',
+      user
+    });
   });
 });
 
