@@ -1,2 +1,37 @@
-# CSE4041-ProjectServer
-:zap: 2018 Dongguk Univ. - Database Programming (CSE4041, 데이터베이스프로그래밍) - Team Project - Pokémon GO Backend Server
+# 데이터베이스프로그래밍 팀프로젝트 - 서버
+### 목적
+
+실습 Oracle DB 서버에 연결하여 Android 앱에서 사용할 데이터를 JSON 형태로서 API Endpoint 단위로 뿌려줍니다.
+
+### Dependency
+
+> Dependency는 npm을 통해서 혹은 다른 소스코드를 import해야할 경우 추가해주시면됩니다.
+
+* Node.js
+* Express.js
+
+
+
+### 주의사항
+
+* `develop` 브랜치와 `master` 브랜치를 나눠놨습니다.
+  * master : 실 서버에 사용할 버전을 관리하는 브랜치 (안드로이드 앱에서 직접 통신을 진행할 버전 관리를 위함입니다.)
+  * develop : 개발용 서버에 사용할 버전을 관리하는 브랜치. 개발하신 내용을 커밋할 때 이 브랜치로 커밋하시면 됩니다.
+  * 이렇게 나눈 이유는 **안드로이드 개발 도중에 서버 개발에 문제생겼을 때 대처하기 위함입니다.**
+  * 이렇게 브랜치 단위로 나누는 걸 `git flow` 라고 하는데 이걸 사용하는 이유가 더 자세히 알고싶으시면 [여기](http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)서 확인하실 수 있습니다.
+
+* 레포를 Fork하시고 개인 계정 레포에서 작업한 뒤에 [상위 레포](https://github.com/MinJunKweon/CSE4041-ProjectServer)로 Pull Request를 생성해주셔야 합니다.
+  * 저도 제가 작업한 분량은 따로 PR을 생성하겠습니다.
+  * PR은 Merge 되기 이전에 꼭 코드리뷰를 거치는 게 좋다고 생각합니다. 급하면 굳이 안하고 스스로 Merge 하셔도 무방합니다.
+* `npm install` 이나 다른 인터넷 소스코드를 import할 때 **(복붙은 해당 안됩니다.)** README.md에 추가해주시기 바랍니다.
+  * 위에서도 설명드렸듯이 Dependency 항목에 추가해주시면 감사하겠습니다.
+  * 이유는 코드리뷰할 때 참고하고 나중에 문서화할 때 편하게 하기 위함입니다.
+
+
+
+### 커밋 메시지 관련
+
+* 커밋 메시지는 굳이 영어로 안하고 한글로 하셔도 됩니다.
+  * 제가 영어를 잘 못하는 편이라.. 의미가 명확하게 전달이 안될 수 있습니다. 한글을 사랑합니다 :)
+* 버그 수정 같은 경우는 커밋 메시지 앞에 `hotfix:` 를 넣어주시면 좋을 것 같습니다.
+  * 예시) `hotfix: 사용자가 보유한 포켓몬 리스트가 정렬되지 않는 버그`
